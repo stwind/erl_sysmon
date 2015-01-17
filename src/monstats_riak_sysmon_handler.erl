@@ -34,14 +34,14 @@ init([]) ->
 handle_event({monitor, _, ProcType, Value}, State) when ProcType == long_gc; 
                                                         ProcType == large_heap; 
                                                         ProcType == long_schedule ->
-    exometer:update([sysmon, node(), ProcType, times], 1),
-    exometer:update([sysmon, node(), ProcType, value], Value),
+    exometer:update([sysmon, nodename(), ProcType, times], 1),
+    exometer:update([sysmon, nodename(), ProcType, value], Value),
     {ok, incr_count(State)};
 
 handle_event({monitor, _, PortType, Port}, State) when PortType == busy_port; 
                                                        PortType == busy_dist_port ->
     log_busy_port(Port),
-    exometer:update([sysmon, node(), PortType, times], 1),
+    exometer:update([sysmon, nodename(), PortType, times], 1),
     {ok, incr_count(State)};
 
 handle_event(Event, State) ->
@@ -81,3 +81,11 @@ incr_count(#state{count = Count} = State) ->
 
 log_busy_port(Port) ->
     error_logger:error_msg("Busy port detected ~p",[Port]).
+
+nodename() ->
+    NodeStr = atom_to_list(node()),
+    NodeStr2 = lists:foldl(
+                 fun($., Acc) -> [$_ | Acc];
+                    (C, Acc) -> [C | Acc]
+                 end, [], NodeStr),
+    list_to_atom(lists:reverse(NodeStr2)).
