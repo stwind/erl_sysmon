@@ -10,7 +10,9 @@
 %% ===================================================================
 
 start(_StartType, _StartArgs) ->
-    monstats_sup:start_link().
+    {ok, Sup} = monstats_sup:start_link(),
+    monstats_riak_sysmon_handler:add_handler(),
+    {ok, Sup}.
 
 stop(_State) ->
     ok.
