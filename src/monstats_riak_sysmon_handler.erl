@@ -66,14 +66,14 @@ code_change(_OldVsn, State, _Extra) ->
 %%%===================================================================
 
 init_metrics() ->
-    exometer:new([sysmon, node(), long_gc, times], counter),
-    exometer:new([sysmon, node(), long_gc, value], gauge),
-    exometer:new([sysmon, node(), large_heap, times], counter),
-    exometer:new([sysmon, node(), large_heap, value], gauge),
-    exometer:new([sysmon, node(), long_schedule, times], counter),
-    exometer:new([sysmon, node(), long_schedule, value], gauge),
-    exometer:new([sysmon, node(), busy_port, times], counter),
-    exometer:new([sysmon, node(), busy_dist_port, times], counter),
+    exometer:new([sysmon, nodename(), long_gc, times], counter),
+    exometer:new([sysmon, nodename(), long_gc, value], gauge),
+    exometer:new([sysmon, nodename(), large_heap, times], counter),
+    exometer:new([sysmon, nodename(), large_heap, value], gauge),
+    exometer:new([sysmon, nodename(), long_schedule, times], counter),
+    exometer:new([sysmon, nodename(), long_schedule, value], gauge),
+    exometer:new([sysmon, nodename(), busy_port, times], counter),
+    exometer:new([sysmon, nodename(), busy_dist_port, times], counter),
     ok.
 
 incr_count(#state{count = Count} = State) ->
