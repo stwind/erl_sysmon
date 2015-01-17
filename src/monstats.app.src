@@ -1,0 +1,17 @@
+%% -*- mode: erlang -*-
+%% ex: ft=erlang ts=2 sw=2 et
+{application, monstats,
+ [
+  {description, "Erlang Mon & Stats"},
+  {vsn, git},
+  {registered, []},
+  {applications, 
+   [
+    kernel,
+    stdlib,
+    vmstats,
+    riak_sysmon
+   ]},
+  {mod, { monstats_app, []}},
+  {env, []}
+ ]}.
